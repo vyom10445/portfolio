@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
+import Overlay from "./Overlay";
+
 export default function ScrollyCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -90,12 +92,13 @@ export default function ScrollyCanvas() {
   }, [images, frameIndex]);
 
   return (
-    <div ref={containerRef} className="relative h-[500vh] w-full bg-[#121212]">
+    <div ref={containerRef} className="relative h-[500vh] w-full bg-background">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full"
         />
+        <Overlay scrollYProgress={scrollYProgress} />
       </div>
     </div>
   );

@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Creative Developer | Portfolio",
-  description: "A high-end scrollytelling personal portfolio website.",
+  title: "Vyom Chaturvedi | AI Engineer",
+  description: "Building intelligent software that solves real problems.",
 };
 
 export default function RootLayout({
@@ -20,9 +26,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} font-sans h-full antialiased dark`}
+      className={`${geist.variable} ${plexMono.variable} font-sans h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden">{children}</body>
+      <head>
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden selection:bg-white/10 selection:text-white">
+        {children}
+      </body>
     </html>
   );
 }
