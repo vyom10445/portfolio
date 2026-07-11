@@ -2,7 +2,6 @@ import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Projects from "@/components/Projects";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
-import Socials from "@/components/Socials";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import About from "@/components/About";
@@ -14,7 +13,6 @@ export default function Home() {
     <main className="relative bg-background selection:bg-accent-cyan/20 selection:text-white">
       <CustomCursor />
       <Navbar />
-      <Socials />
       
       {/* Hero Section */}
       <div className="relative">

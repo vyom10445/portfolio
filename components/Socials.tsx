@@ -12,14 +12,14 @@ export default function Socials() {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-4 bg-[#090909] p-3 rounded-2xl border border-white/[0.06] shadow-2xl backdrop-blur-md">
+    <div className="absolute bottom-10 right-8 z-50 flex flex-row gap-5 bg-[#090909] p-3.5 rounded-2xl border border-white/[0.06] shadow-2xl backdrop-blur-md">
       {socials.map((social) => (
         <motion.a
           key={social.name}
           href={social.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative text-white/40 hover:text-white transition-colors duration-300 p-2 rounded-full hover:bg-white/5 group"
+          className="relative text-white/40 hover:text-white transition-colors duration-300 p-2.5 rounded-full hover:bg-white/5 group"
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
         >

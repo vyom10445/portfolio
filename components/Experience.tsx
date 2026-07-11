@@ -8,12 +8,10 @@ const experiences = [
     company: "IEEE Student Branch, Manipal University Jaipur",
     duration: "May 2025 - March 2026",
     achievements: [
-      "Led a 9-member technical team, driving structured execution and successful delivery of 5 cross-domain MVPs across ML, systems, and automation",
-      "Mentored team members across the full project lifecycle, from ideation and development to review and final presentation, ensuring completion of all assigned projects",
-      "Conducted 8+ structured mentoring sessions and reviewed 20+ code submissions, improving code quality, development practices, and project consistency",
-      "Directed development of projects including ML-based backtesting, issue tracking systems, face recognition, game development, and automation agents",
-      "Developed and validated rocket simulation models in MATLAB, translating physics equations (trajectory, thrust, drag) into computational systems",
-      "Contributed to IEEE SB MUJ web platforms, implementing frontend design enhancements and improving presentation of technical content"
+      "Led a 9-member technical team, driving the successful delivery of 5 cross-domain AI and software projects across machine learning, automation, and system development.",
+      "Mentored team members throughout the entire project lifecycle, from ideation and architecture to development, code reviews, and final presentations.",
+      "Conducted 8+ structured mentoring sessions and reviewed 20+ code submissions, improving code quality, collaboration, and engineering practices.",
+      "Enhanced IEEE Student Branch MUJ's web platforms by implementing frontend improvements and presenting technical content in a more engaging and accessible way."
     ]
   }
 ];

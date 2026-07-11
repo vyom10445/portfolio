@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
 import Overlay from "./Overlay";
+import Socials from "./Socials";
 
 export default function ScrollyCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -99,6 +100,7 @@ export default function ScrollyCanvas() {
           className="absolute inset-0 w-full h-full"
         />
         <Overlay scrollYProgress={scrollYProgress} />
+        <Socials />
       </div>
     </div>
   );
