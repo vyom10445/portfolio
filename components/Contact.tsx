@@ -51,7 +51,7 @@ export default function Contact() {
                 <LinkedinIcon className="w-5 h-5" />
               </a>
               <a 
-                href="#" 
+                href="https://drive.google.com/file/d/1YGUrTzKSjLzApUKnz8kI4CQOAoOTr058/view?usp=sharing" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-4 rounded-full bg-surface border border-border text-white/70 hover:text-white hover:border-white/20 hover:bg-surface/80 transition-all hover:-translate-y-1"

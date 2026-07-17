@@ -25,8 +25,9 @@
   .text-balance {
     text-wrap: balance;
   }
+  /* Clash Display — font-display utility */
   .font-display {
-    font-family: 'Clash Display', var(--font-sans);
+    font-family: var(--font-clash-display), ui-sans-serif, system-ui, sans-serif;
   }
 }
 

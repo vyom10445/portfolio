@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
+import { Mail, FileText } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./Icons";
 
 export default function Socials() {
@@ -9,6 +9,7 @@ export default function Socials() {
     { name: "GitHub", icon: GithubIcon, href: "https://github.com/vyom10445" },
     { name: "LinkedIn", icon: LinkedinIcon, href: "https://www.linkedin.com/in/vyomchaturvedi/" },
     { name: "Email", icon: Mail, href: "mailto:vyomchaturvediwork@gmail.com" },
+    { name: "Resume", icon: FileText, href: "https://drive.google.com/file/d/1YGUrTzKSjLzApUKnz8kI4CQOAoOTr058/view?usp=sharing" },
   ];
 
   return (
