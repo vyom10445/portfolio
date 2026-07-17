@@ -5,7 +5,12 @@ import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import Overlay from "./Overlay";
 import Socials from "./Socials";
 
-export default function ScrollyCanvas() {
+interface ScrollyCanvasProps {
+  /** Called with a 0–100 value as each frame image loads. */
+  onProgress?: (percent: number) => void;
+}
+
+export default function ScrollyCanvas({ onProgress }: ScrollyCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
@@ -19,18 +24,31 @@ export default function ScrollyCanvas() {
 
   // Preload images
   useEffect(() => {
+    const TOTAL = 120;
     const loadedImages: HTMLImageElement[] = [];
     let loadedCount = 0;
-    for (let i = 0; i <= 119; i++) {
+
+    for (let i = 0; i < TOTAL; i++) {
       const img = new Image();
       const paddedIndex = i.toString().padStart(3, '0');
       img.src = `/sequence/frame_${paddedIndex}_delay-0.066s.png`;
       img.onload = () => {
         loadedCount++;
-        if (loadedCount === 120) {
+        const percent = (loadedCount / TOTAL) * 100;
+        onProgress?.(percent);
+        if (loadedCount === TOTAL) {
           setImages(loadedImages);
-          // draw first frame once loaded
+          // draw first frame once fully loaded
           drawFrame(loadedImages[0]);
+        }
+      };
+      img.onerror = () => {
+        // Count failed frames so progress still reaches 100%
+        loadedCount++;
+        const percent = (loadedCount / TOTAL) * 100;
+        onProgress?.(percent);
+        if (loadedCount === TOTAL) {
+          setImages(loadedImages);
         }
       };
       loadedImages.push(img);
