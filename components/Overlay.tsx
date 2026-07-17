@@ -49,7 +49,7 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: MotionVa
         className="absolute inset-0 flex flex-col items-start justify-center w-full pl-4 md:pl-8 lg:pl-12 pr-12 md:pr-24 lg:pr-48 text-left"
       >
         <h2 className="text-4xl md:text-6xl font-medium text-white max-w-3xl leading-tight drop-shadow-xl font-display text-balance">
-          Building intelligent software that solves real problems.
+          Building intelligent <br /> software that <br /> solves real problems.
         </h2>
       </motion.div>
 

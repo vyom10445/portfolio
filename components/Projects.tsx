@@ -3,15 +3,25 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { GithubIcon } from "./Icons";
+import { ExternalLink } from "lucide-react";
 
 const projects = [
+  {
+    title: "ResearchForge - Multi Agent AI Research",
+    description: "ResearchForge is an AI-powered research assistant that automates end to end research using a team of specialized AI agents working together. One agent searches the web for reliable sources, another analyzes the most relevant content, a third writes a structured report, and a fourth reviews it with a quality score and feedback—all through a clean Streamlit interface.",
+    tags: ["Python", "LangChain", "OpenAI API", "Tavily Search API", "Streamlit"],
+    github: "https://github.com/vyom10445/research-forge",
+    live: "https://research-forge-ai.streamlit.app/",
+    image: "/projects/researchforge.png",
+    number: "01",
+  },
   {
     title: "ScholarMind - AI Study Assistant",
     description: "A full-stack Retrieval-Augmented Generation (RAG) application that lets users upload study materials (PDFs) and ask questions answered strictly from that content. Features a custom streaming chat UI where answers appear live with clickable source citations. Designed for safe multi-user deployment with private, isolated document libraries.",
     tags: ["Python", "LangChain", "RAG", "ChromaDB", "OpenAI API", "FastAPI", "JavaScript", "REST APIs"],
     github: "https://github.com/vyom10445/scholar-mind",
     image: "/projects/scholarmind.png",
-    number: "01",
+    number: "02",
   },
   {
     title: "Answer Sheet Digitizer",
@@ -19,7 +29,7 @@ const projects = [
     tags: ["Python", "OpenCV", "NumPy", "Tesseract OCR", "Streamlit", "Pillow"],
     github: "https://github.com/vyom10445/automatic-answer-sheet-digitizer",
     image: "/projects/digitizer.png",
-    number: "02",
+    number: "03",
   },
   {
     title: "ToxiScan - Toxicity Detection",
@@ -27,7 +37,7 @@ const projects = [
     tags: ["Python", "TensorFlow", "Keras", "NLP", "BiLSTM", "Gradio"],
     github: "https://github.com/vyom10445/toxicity-classifier",
     image: "/projects/toxiscan.png",
-    number: "03",
+    number: "04",
   },
 ];
 
@@ -51,17 +61,17 @@ export default function Projects() {
             const isEven = idx % 2 === 0;
             return (
               <div key={idx} className="relative">
-                
+
                 {/* Background Oversized Number */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] md:text-[15vw] font-bold text-white/[0.02] font-display pointer-events-none select-none z-0">
                   {project.number}
                 </div>
 
                 <div className={`relative z-10 w-full flex flex-col md:flex-row items-center gap-12 md:gap-16 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                  
+
                   {/* Project Image Preview */}
                   <div className="w-full md:w-3/5 group">
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.8 }}
@@ -74,10 +84,10 @@ export default function Projects() {
                         <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
                       </div>
                       <div className="relative aspect-[16/10] w-full overflow-hidden">
-                        <Image 
-                          src={project.image} 
-                          alt={project.title} 
-                          fill 
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
                           className="object-cover transition-transform duration-700 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, 60vw"
                           priority={idx === 0}
@@ -87,7 +97,7 @@ export default function Projects() {
                   </div>
 
                   {/* Project Info */}
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
@@ -99,7 +109,7 @@ export default function Projects() {
                     <p className="text-white/60 text-lg mb-8 leading-relaxed">
                       {project.description}
                     </p>
-                    
+
                     <div className="flex flex-wrap gap-2 mb-10">
                       {project.tags.map((tag, i) => (
                         <span
@@ -111,19 +121,30 @@ export default function Projects() {
                       ))}
                     </div>
 
-                    <div className="flex gap-4 mt-auto">
-                      <a 
-                        href={project.github} 
-                        target="_blank" 
+                    <div className="flex flex-wrap gap-4 mt-auto">
+                      <a
+                        href={project.github}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="group flex items-center gap-2 px-6 py-3 rounded-full bg-white text-background font-medium hover:bg-white/90 transition-all hover:scale-105 active:scale-95"
                       >
                         <GithubIcon className="w-4 h-4" />
                         <span>View Source</span>
                       </a>
+                      {(project as any).live && (
+                        <a
+                          href={(project as any).live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center gap-2 px-6 py-3 rounded-full bg-surface border border-border text-white hover:bg-surface/80 hover:border-white/20 transition-all hover:scale-105 active:scale-95"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          <span>Live Demo</span>
+                        </a>
+                      )}
                     </div>
                   </motion.div>
-                  
+
                 </div>
               </div>
             );

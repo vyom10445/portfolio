@@ -14,7 +14,7 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 font-display tracking-tight">Let's build something.</h2>
+          <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 font-display tracking-tight">Start a conversation.</h2>
           <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">
             I'm currently open for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
           </p>

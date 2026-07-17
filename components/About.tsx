@@ -45,7 +45,7 @@ export default function About() {
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-10 font-display">Beyond Code</h2>
           <p className="text-xl md:text-2xl text-white/80 leading-relaxed font-sans text-balance">
-            "I build AI-powered software, but my curiosity extends far beyond technology. I'm drawn to philosophy, art, science, and design because I believe great engineering begins with understanding the world—not just writing code."
+            "I build AI-powered software, but my curiosity extends far beyond technology. I'm drawn to philosophy, art, science, and design because I believe great engineering begins with understanding the world - not just writing code."
           </p>
         </motion.div>
 
