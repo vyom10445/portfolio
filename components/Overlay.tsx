@@ -13,12 +13,19 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: MotionVa
   const y2 = useTransform(scrollYProgress, [0.3, 0.65], [50, -50]);
   const y3 = useTransform(scrollYProgress, [0.7, 1], [50, -50]);
 
+  // Display transforms derived directly from the opacity MotionValues — NOT from scrollYProgress.
+  // This guarantees display and opacity are evaluated in the exact same animation frame,
+  // eliminating the single-frame pop caused by Chrome scheduling them one rAF apart.
+  const display1 = useTransform(opacity1, (o) => (o < 0.01 ? "none" : "flex"));
+  const display2 = useTransform(opacity2, (o) => (o < 0.01 ? "none" : "flex"));
+  const display3 = useTransform(opacity3, (o) => (o < 0.01 ? "none" : "flex"));
+
   return (
     <div className="pointer-events-none fixed top-0 left-0 w-full h-screen z-10 flex flex-col justify-center px-8 md:px-24">
       {/* Initial Hero */}
       <motion.div
-        style={{ opacity: opacity1, y: y1 }}
-        className="absolute inset-0 flex flex-col items-center justify-center text-center"
+        style={{ opacity: opacity1, y: y1, display: display1 }}
+        className="absolute inset-0 flex-col items-center justify-center text-center"
       >
         <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-4 drop-shadow-2xl font-display">
           Vyom Chaturvedi
@@ -26,27 +33,25 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: MotionVa
         <p className="text-xl md:text-2xl text-accent-cyan font-mono tracking-wide mt-2 drop-shadow-md">
           AI Engineer
         </p>
-        
+
         {/* Subtle scroll indicator */}
-        <motion.div 
+        <div
           className="absolute bottom-12 flex flex-col items-center gap-2 text-white/40 font-mono text-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 1 }}
         >
           <span>Scroll</span>
-          <motion.div 
+          <motion.div
             className="w-[1px] h-12 bg-gradient-to-b from-white/40 to-transparent"
-            animate={{ scaleY: [0, 1, 0], originY: [0, 0, 1] }}
+            animate={{ scaleY: [0, 1, 0] }}
+            style={{ originY: 0 }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           />
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* Scroll Sequence 1 */}
       <motion.div
-        style={{ opacity: opacity2, y: y2 }}
-        className="absolute inset-0 flex flex-col items-start justify-center w-full pl-4 md:pl-8 lg:pl-12 pr-12 md:pr-24 lg:pr-48 text-left"
+        style={{ opacity: opacity2, y: y2, display: display2 }}
+        className="absolute inset-0 flex-col items-start justify-center w-full pl-4 md:pl-8 lg:pl-12 pr-12 md:pr-24 lg:pr-48 text-left"
       >
         <h2 className="text-4xl md:text-6xl font-medium text-white max-w-3xl leading-tight drop-shadow-xl font-display text-balance">
           Building intelligent <br /> software that <br /> solves real problems.
@@ -55,8 +60,8 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: MotionVa
 
       {/* Scroll Sequence 2 */}
       <motion.div
-        style={{ opacity: opacity3, y: y3 }}
-        className="absolute inset-0 flex flex-col items-end justify-center w-full pr-4 md:pr-8 lg:pr-12 pl-12 md:pl-24 lg:pl-48 text-right"
+        style={{ opacity: opacity3, y: y3, display: display3 }}
+        className="absolute inset-0 flex-col items-end justify-center w-full pr-4 md:pr-8 lg:pr-12 pl-12 md:pl-24 lg:pl-48 text-right"
       >
         <h2 className="text-3xl md:text-5xl font-medium text-white max-w-4xl leading-tight drop-shadow-xl font-display text-balance">
           Driven by curiosity, <br /> philosophy, art, <br /> science, and design.

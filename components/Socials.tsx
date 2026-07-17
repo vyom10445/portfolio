@@ -13,18 +13,18 @@ export default function Socials() {
   ];
 
   return (
-    <div className="absolute bottom-10 right-8 z-50 flex flex-row gap-5 bg-[#090909] p-3.5 rounded-2xl border border-white/[0.06] shadow-2xl backdrop-blur-md">
+    <div className="absolute bottom-8 right-8 z-50 flex flex-row gap-6 bg-[#090909] p-4 rounded-2xl border border-white/[0.06] shadow-2xl backdrop-blur-md">
       {socials.map((social) => (
         <motion.a
           key={social.name}
           href={social.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative text-white/40 hover:text-white transition-colors duration-300 p-2.5 rounded-full hover:bg-white/5 group"
+          className="relative text-white/40 hover:text-white transition-colors duration-300 p-3 rounded-full hover:bg-white/5 group"
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
         >
-          <social.icon className="w-5 h-5 relative z-10" />
+          <social.icon className="w-6 h-6 relative z-10" />
           {/* Subtle accent glow on hover */}
           <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-opacity duration-300" />
         </motion.a>
