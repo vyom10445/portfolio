@@ -16,7 +16,16 @@ export default function ScrollyCanvas({ onProgress, onFirstFrameReady }: Scrolly
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const firstFrameSignalled = useRef(false);
+
+  // Two-gate readiness: the loading screen stays up until BOTH conditions are
+  // satisfied simultaneously:
+  //   gate A — first frame has been drawn onto the canvas
+  //   gate B — the full image array has been committed to React state, meaning
+  //            useMotionValueEvent is subscribed and scroll animation is live
+  // We use refs (not state) for the gates so checking them never causes a render.
+  const firstFrameDrawn = useRef(false);
+  const allImagesReady = useRef(false);
+  const readySignalled = useRef(false);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -24,6 +33,21 @@ export default function ScrollyCanvas({ onProgress, onFirstFrameReady }: Scrolly
   });
 
   const frameIndex = useTransform(scrollYProgress, [0, 1], [0, 119]);
+
+  // Called internally whenever either gate flips — fires onFirstFrameReady
+  // exactly once when both gates are satisfied.
+  const checkReady = useRef(() => {
+    if (!readySignalled.current && firstFrameDrawn.current && allImagesReady.current) {
+      readySignalled.current = true;
+      // A second rAF ensures the browser has composited the newly-set images
+      // state AND the canvas draw before we dismiss the loader.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          onFirstFrameReady?.();
+        });
+      });
+    }
+  });
 
   // Preload images
   useEffect(() => {
@@ -35,35 +59,40 @@ export default function ScrollyCanvas({ onProgress, onFirstFrameReady }: Scrolly
       const img = new Image();
       const paddedIndex = i.toString().padStart(3, '0');
       img.src = `/sequence/frame_${paddedIndex}_delay-0.066s.png`;
+
       img.onload = () => {
         loadedCount++;
-        const percent = (loadedCount / TOTAL) * 100;
-        onProgress?.(percent);
-        if (loadedCount === TOTAL) {
-          setImages(loadedImages);
-          // draw first frame once fully loaded
+        onProgress?.((loadedCount / TOTAL) * 100);
+
+        // Gate A: draw frame 0 as soon as it arrives, regardless of load order.
+        if (!firstFrameDrawn.current && loadedImages[0]?.complete) {
+          firstFrameDrawn.current = true;
           drawFrame(loadedImages[0]);
+          checkReady.current();
         }
-        // Signal first-frame readiness as soon as frame[0] is loaded,
-        // but only after it has actually been painted to the canvas.
-        if (!firstFrameSignalled.current && loadedImages[0]?.complete) {
-          firstFrameSignalled.current = true;
+
+        // Gate B: all frames loaded → commit to React state so the
+        // useMotionValueEvent subscription becomes live.
+        if (loadedCount === TOTAL) {
+          allImagesReady.current = true;
+          setImages(loadedImages);
+          // Ensure frame 0 is shown even if gate A fired before setImages.
           drawFrame(loadedImages[0]);
-          // rAF guarantees the draw call has been committed to the screen.
-          requestAnimationFrame(() => {
-            onFirstFrameReady?.();
-          });
+          checkReady.current();
         }
       };
+
       img.onerror = () => {
-        // Count failed frames so progress still reaches 100%
         loadedCount++;
-        const percent = (loadedCount / TOTAL) * 100;
-        onProgress?.(percent);
+        onProgress?.((loadedCount / TOTAL) * 100);
+        // Still need to reach TOTAL even on error so gate B can fire.
         if (loadedCount === TOTAL) {
+          allImagesReady.current = true;
           setImages(loadedImages);
+          checkReady.current();
         }
       };
+
       loadedImages.push(img);
     }
   }, []);
