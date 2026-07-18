@@ -8,12 +8,15 @@ import Socials from "./Socials";
 interface ScrollyCanvasProps {
   /** Called with a 0–100 value as each frame image loads. */
   onProgress?: (percent: number) => void;
+  /** Called once the very first frame has been painted to the canvas. */
+  onFirstFrameReady?: () => void;
 }
 
-export default function ScrollyCanvas({ onProgress }: ScrollyCanvasProps) {
+export default function ScrollyCanvas({ onProgress, onFirstFrameReady }: ScrollyCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const firstFrameSignalled = useRef(false);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -40,6 +43,16 @@ export default function ScrollyCanvas({ onProgress }: ScrollyCanvasProps) {
           setImages(loadedImages);
           // draw first frame once fully loaded
           drawFrame(loadedImages[0]);
+        }
+        // Signal first-frame readiness as soon as frame[0] is loaded,
+        // but only after it has actually been painted to the canvas.
+        if (!firstFrameSignalled.current && loadedImages[0]?.complete) {
+          firstFrameSignalled.current = true;
+          drawFrame(loadedImages[0]);
+          // rAF guarantees the draw call has been committed to the screen.
+          requestAnimationFrame(() => {
+            onFirstFrameReady?.();
+          });
         }
       };
       img.onerror = () => {
